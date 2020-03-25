@@ -3,19 +3,53 @@ level:
   org.springframework.web: ERROR
   liquibase: INFO
 
-spring:
-  profiles:
-    active: "dev"
-
-okta:
-  oauth2:
-    issuer: https://dev-958433.okta.com/oauth2/default
-    client-id: 0oazig0adjD1PgAjO356
-    client-secret: iNxF-y6iJACN2eeY8MO-bJ7IdhcSEjt1YXrrNfc0
-
 server:
   port: 8761
 
+ribbon:
+  eureka:
+    enabled: true
+
+zuul:
+  prefix: /services/ #slash before and after
+  strip-prefix: true
+
+management:
+  security:
+    roles: SYSADMIN
+  context-path: /management
+  health:
+    mail:
+      enabled: false # When using the MailService, configure an SMTP server and set this to true
+
+security:
+  user:
+    name: admin
+    password: admin
+    role: USER,ADMIN, SYSADMIN
+
+
 eureka:
+  instance:
+    appname: eureka-registry
+    instanceId: ${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+    status-page-url-path: ${management.context-path}/info
+    health-check-url-path: ${management.context-path}/health
+    metadata-map:
+      profile: ${spring.profiles.active}
+      version: ${info.project.version}
   client:
+    enabled: true
+    fetch-registry: false
     register-with-eureka: false
+    instance-info-replication-interval-seconds: 10
+    registry-fetch-interval-seconds: 10
+    service-url:
+      defaultZone: http://admin:${security.user.password:admin}@localhost:${server.port}/eureka/
+  server:
+    enable-self-preservation: false
+  dashboard:
+    path: /registry
