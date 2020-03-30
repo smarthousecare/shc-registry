@@ -10,10 +10,6 @@ ribbon:
   eureka:
     enabled: true
 
-zuul:
-  prefix: /services/ #slash before and after
-  strip-prefix: true
-
 management:
   security:
     roles: SYSADMIN
@@ -22,17 +18,10 @@ management:
     mail:
       enabled: false # When using the MailService, configure an SMTP server and set this to true
 
-security:
-  user:
-    name: admin
-    password: admin
-    role: USER,ADMIN, SYSADMIN
-
-
 eureka:
   instance:
-    appname: eureka-registry
-    instanceId: ${spring.application.instance_id:${random.value}}
+    appname: registry-server
+    instanceId: registry-server:${spring.application.instance_id:${random.value}}
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
@@ -43,13 +32,22 @@ eureka:
       version: ${info.project.version}
   client:
     enabled: true
+    #This is a eureka server no need to fetch registry
     fetch-registry: false
+    #This is a eureka server so no need to register
     register-with-eureka: false
     instance-info-replication-interval-seconds: 10
     registry-fetch-interval-seconds: 10
     service-url:
-      defaultZone: http://admin:${security.user.password:admin}@localhost:${server.port}/eureka/
+      defaultZone: http://localhost:${server.port}/eureka
   server:
     enable-self-preservation: false
+    #timeout
+    wait-time-in-ms-when-sync-empty: 0
   dashboard:
     path: /registry
+
+#Name of the application
+spring:
+  application:
+    name: registry-server
