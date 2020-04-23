@@ -5,6 +5,9 @@ level:
 
 server:
   port: 8761
+  servlet:
+    session:
+      persistent: false
 
 ribbon:
   eureka:
@@ -12,7 +15,7 @@ ribbon:
 
 management:
   security:
-    roles: SYSADMIN
+    roles: ADMIN
   context-path: /management
   health:
     mail:
@@ -22,12 +25,13 @@ eureka:
   instance:
     appname: registry-server
     instanceId: registry-server:${spring.application.instance_id:${random.value}}
-    prefer-ip-address: true
+    prefer-ip-address: false
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
     status-page-url-path: ${management.context-path}/info
     health-check-url-path: ${management.context-path}/health
     metadata-map:
+      zone: primary # This is needed for the load balancer
       profile: ${spring.profiles.active}
       version: ${info.project.version}
   client:
@@ -51,3 +55,13 @@ eureka:
 spring:
   application:
     name: registry-server
+  main:
+    allow-bean-definition-overriding: true
+
+zuul:
+  prefix: /services/ #slash before and after
+  strip-prefix: true
+
+
+
+
