@@ -57,4 +57,5 @@ public class OAuth2SsoConfiguration extends WebSecurityConfigurerAdapter {
         registration.setOrder(Ordered.HIGHEST_PRECEDENCE + 1);
         return registration;
     }
+
 }
