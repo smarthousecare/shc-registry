@@ -2,7 +2,6 @@
 # Spring Cloud Config bootstrap configuration for the "dev" profile
 # In prod profile, properties will be overwriten by the ones defined in bootstrap-prod.yml
 # ===================================================================
-
 spring:
   application:
     name: registry-server
@@ -12,7 +11,7 @@ spring:
     config:
       server:
         native:
-          search-locations: file:./central-config/
+          search-locations: file:./central-config/dev
           #search-locations: file:./central-config/{application}/{profile}
         prefix: /config
         bootstrap: true

@@ -25,15 +25,10 @@ spring:
             user-info-uri: https://dev-958433.okta.com/oauth2/default/v1/userinfo
             jwk-set-uri: https://dev-958433.okta.com/oauth2/default/v1/keys
             user-name-attribute: sub
+            rolesClaim: groups
       resourceserver:
         jwt:
-          issuer-uri: https://dev-958433.okta.com/oauth2/default
-
-#okta:
-#  oauth2:
-#    issuer: https://dev-958433.okta.com/oauth2/default
-#    client-id: 0oa4u7s7jowBgKy6W4x6
-#    client-secret: udX0cFsj3UsCznuiFbmE1M04U3_aEVIgSPdmgCL1
+          jwk-set-uri: https://dev-958433.okta.com/oauth2/default/v1/keys
 
 eureka:
   instance:
