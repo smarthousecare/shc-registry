@@ -1,9 +1,15 @@
-level:
-  ROOT: ERROR
-  org.springframework.web: ERROR
-  liquibase: INFO
+server:
+  port: 8080
 
-spring:
+management:
+  health:
+    mail:
+      enabled: false # When using the MailService, configure an SMTP server and set this to true
+  endpoints:
+    web:
+      base-path: /management
+
+sspring:
   profiles:
     active: "dev"
   security:
@@ -29,10 +35,3 @@ spring:
       resourceserver:
         jwt:
           jwk-set-uri: https://dev-958433.okta.com/oauth2/default/v1/keys
-
-eureka:
-  instance:
-    prefer-ip-address: false
-  client:
-    service-url:
-      defaultZone: http://admin:${spring.security.user.password}@localhost:${server.port}/eureka/
